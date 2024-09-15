@@ -14,7 +14,7 @@
            <Border Background="#042c62" CornerRadius="3">
                <StackPanel>
                    <TextBox Text="{Binding FullPath}" />
-                   <Image Source="{Binding }"></Image>
+                   <Image IsVisible="{Binding }"></Image>
                </StackPanel>
            </Border>
        </Expander>
