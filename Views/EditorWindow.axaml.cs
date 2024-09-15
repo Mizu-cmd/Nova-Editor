@@ -11,7 +11,7 @@ namespace Nova_Engine.Views;
 
 public partial class EditorWindow : Window
 {
-    private const string _dllImportPath = @"..\..\..\bin\Debug\net8.0\libNova_Engine.dll";
+    private const string _dllImportPath = "libNova_Engine";
 
     [DllImport(_dllImportPath, CallingConvention = CallingConvention.StdCall)]
     private static extern void run();

@@ -12,7 +12,7 @@ namespace Nova_Engine.Models.Components;
 public class TextureComponent : IEntityComponent, INotifyPropertyChanged
 {
     private IntPtr _pointer = IntPtr.Zero;
-    private const string _dllImportPath = "libNova_Editor.dll";
+    private const string _dllImportPath = "libNova_Editor";
     
     [DllImport(_dllImportPath, CallingConvention = CallingConvention.StdCall)]
     private static extern IntPtr createTexture();

@@ -10,7 +10,7 @@ namespace Nova_Engine.Models.Components;
 [DataContract]
 public class TransformComponent : IEntityComponent
 {
-    private const string _dllImportPath = @"..\..\..\bin\Debug\net8.0\libNova_Engine.dll";
+    private const string _dllImportPath = "libNova_Engine";
     
     private IntPtr _pointer = IntPtr.Zero;
     
