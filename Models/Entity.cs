@@ -17,7 +17,7 @@ namespace Nova_Engine.Object;
 public class Entity : INotifyPropertyChanged
 {
     
-    private const string _dllImportPath = @"..\..\..\bin\Debug\net8.0\libNova_Engine.dll";
+    private const string _dllImportPath = "libNova_Engine";
     private IntPtr _pointer = IntPtr.Zero;
 
     [DataMember] private string _name;
