@@ -1,0 +1,42 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:Nova_Engine.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="200"
+        x:Class="Nova_Engine.Views.Dialog.DialogBox"
+        x:DataType="viewModels:DialogBoxViewModel"
+        SizeToContent="WidthAndHeight"
+        MinWidth="300" Height="200"
+        MaxWidth="400"
+        CanResize="False"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterScreen"
+        Focusable="False"
+        CornerRadius="3"
+        Icon="/Assets/nova-logo.ico"
+        RenderOptions.BitmapInterpolationMode="HighQuality"
+        Title="{Binding Title}">
+    
+    <DockPanel Background="{StaticResource SecondaryColor}">
+        <Border DockPanel.Dock="Top">
+            <TextBlock TextAlignment="Center" TextWrapping="Wrap" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Azure" Margin="50 20" Text="{Binding Message}"></TextBlock>
+        </Border>
+        <Border VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+            <ItemsControl ItemsSource="{Binding Buttons}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel HorizontalAlignment="Right"></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Command="{Binding ButtonClickCommand}" CommandParameter="{Binding}" CornerRadius="{StaticResource BtnRadius}" Margin="15 15"  Height="25" Width="50">
+                            <TextBlock Text="{Binding Text}"></TextBlock>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+    </DockPanel>
+</Window>

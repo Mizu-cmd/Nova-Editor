@@ -1,0 +1,87 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Nova_Engine.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="https://github.com/projektanker/icons.avalonia"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="550"
+        x:Class="Nova_Engine.Views.CreateProjectWindow"
+        x:DataType="vm:MainWindowViewModel"
+        MinWidth="800"
+        MinHeight="550"
+        Width="800"
+        Height="550"
+        Icon="/Assets/nova-logo.ico"
+        Title="Nova Game Engine - Create Project">
+    
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    
+    <DockPanel RenderOptions.BitmapInterpolationMode="HighQuality" LastChildFill="True" Background="{StaticResource SecondaryColor}">
+        <Border Height="30" Background="{StaticResource PrimaryColor}" DockPanel.Dock="Top" >
+             <WrapPanel VerticalAlignment="Center">
+                 <Image Height="20" Width="20" Margin="5 0" Source="/Assets/nova-logo.png"></Image>
+                 <TextBlock VerticalAlignment="Center" Foreground="Azure">Create a new Project with Nova</TextBlock>
+             </WrapPanel>
+        </Border>
+        <Border Height="50" Background="{StaticResource PrimaryColor}" DockPanel.Dock="Bottom">
+            <Grid ColumnDefinitions="* Auto Auto">
+                <TextBlock Grid.Column="0" Foreground="White" Text="{Binding Version}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10 0"></TextBlock>
+                <Button Click="CreateBtn_OnClick" Background="{StaticResource AccentColor}" Grid.Column="1" Margin="20 0 10 0" Height="30" Width="150" CornerRadius="{StaticResource BtnRadius}">
+                    <TextBlock Margin="2 0" FontWeight="Bold">Create Project</TextBlock>
+                </Button>
+                <Button Click="CancelBtn_OnClick" Background="Gray" Height="30" Width="100" CornerRadius="{StaticResource BtnRadius}" Margin="10" Grid.Column="2">Cancel</Button>
+            </Grid>
+        </Border>
+        <Grid ColumnDefinitions="* *">
+            <Border Grid.Column="0">
+                <StackPanel>
+                    <TextBlock FontWeight="Medium" Foreground="Gray" FontSize="15" Margin="20">Template</TextBlock>
+                    <ItemsControl Margin="10" HorizontalAlignment="Center" Name="Templates" Background="Transparent" BorderBrush="Transparent">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ToggleButton Background="{StaticResource PrimaryColor}" Height="110" Width="100" Margin="5" BorderBrush="White" BorderThickness="1" 
+                                            CornerRadius="4" Padding="4">
+                                       <StackPanel>
+                                           <Image Height="55" Source="/Assets/nova-logo.png"></Image>
+                                           <TextBlock Foreground="Azure" Margin="10" HorizontalAlignment="Center" Text="{Binding}"/>
+                                       </StackPanel>
+                                    </ToggleButton>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+            <Border Grid.Column="1" VerticalAlignment="Top">
+                <StackPanel>
+                    <Image Source="/Assets/600x300.png"></Image>
+                    <TextBlock FontWeight="Medium" Foreground="Azure" FontSize="20" Margin="10 10 0 0 ">Template Name</TextBlock>
+                    <TextBlock Margin="10 0 0 15" Foreground="Gray" FontSize="10">An empty Nova Project.</TextBlock>
+                    <Separator Margin="10"></Separator>
+                    <Border CornerRadius="{StaticResource BtnRadius}" Margin="20" Background="{StaticResource PrimaryColor}">
+                        <StackPanel>
+                            <Label Foreground="Azure" Margin="20 0">Project Name</Label>
+                            <TextBox TextChanging="ProjectName_OnTextChanging" Name="ProjectName" Background="Gray" CornerRadius="{StaticResource BtnRadius}" Margin="10 0 10 10">NewProject</TextBox>
+                        </StackPanel>
+                    </Border>
+                    <Border CornerRadius="{StaticResource BtnRadius}" Margin="20 5" Background="{StaticResource PrimaryColor}">
+                        <StackPanel>
+                            <Grid ColumnDefinitions="* Auto" RowDefinitions="* Auto Auto" >
+                                <Label Grid.Row="0" Foreground="Azure" Margin="20 0 0 0">Project Path</Label>
+                                <TextBox Name="DirPath" Grid.Column="0" Grid.Row="1" Background="Gray" CornerRadius="{StaticResource BtnRadius}" Height="25" Margin="10 0 0 0"></TextBox>
+                                <Button Click="ChooseDirBtn_OnClick" Grid.Column="1 " Grid.Row="1" Background="Transparent" BorderBrush="Transparent"><i:Icon Foreground="Azure" FontSize="25" Margin="5 0" Value="fa-solid fa-folder-open"></i:Icon></Button>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </DockPanel>
+    
+</Window>

@@ -1,0 +1,53 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:components="clr-namespace:Nova_Engine.Models.Components"
+             x:DataType="components:TransformComponent"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Nova_Engine.UserControls.Components.Transform">
+    <Expander IsExpanded="True">
+           <Expander.Header>
+               <TextBlock Foreground="Azure" FontSize="15">Transform</TextBlock>
+           </Expander.Header>
+           <Border Background="#042c62" CornerRadius="3">
+               <Grid RowDefinitions="* Auto Auto" Margin="10">
+                   <!--Position-->
+                   <Grid Margin="0 3" Grid.Row="0" ColumnDefinitions="* * *">
+                       <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 5" Foreground="Azure">Position</TextBlock>
+                       <Grid Grid.Column="1" ColumnDefinitions="Auto *">
+                           <TextBlock Foreground="Azure" FontWeight="DemiBold"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4 0">X</TextBlock>
+                           <TextBox Grid.Column="1" CornerRadius="3" HorizontalAlignment="Stretch" Text="{Binding Position.X}"></TextBox>
+                       </Grid>
+                       <Grid Grid.Column="2" ColumnDefinitions="Auto *">
+                           <TextBlock Foreground="Azure" FontWeight="DemiBold"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4 0">Y</TextBlock>
+                           <TextBox Grid.Column="1" CornerRadius="3" HorizontalAlignment="Stretch" Text="{Binding Position.Y}"></TextBox>
+                       </Grid>
+                   </Grid>
+                   
+                   <!--Rotation-->
+                   <Grid Margin="0 3" Grid.Row="1" ColumnDefinitions="* * *">
+                       <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 5" Foreground="Azure">Rotation</TextBlock>
+                       <Grid Grid.Column="1" ColumnDefinitions="Auto *">
+                           <TextBlock Foreground="Azure" FontWeight="DemiBold"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4 0">X</TextBlock>
+                           <TextBox Grid.Column="1" CornerRadius="3" HorizontalAlignment="Stretch" Text="{Binding Rotation.X}"></TextBox>
+                       </Grid>
+                       <Grid Grid.Column="2" ColumnDefinitions="Auto *">
+                           <TextBlock Foreground="Azure" FontWeight="DemiBold"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4 0">Y</TextBlock>
+                           <TextBox Grid.Column="1" CornerRadius="3" HorizontalAlignment="Stretch" Text="{Binding Rotation.Y}"></TextBox>
+                       </Grid>
+                   </Grid>
+                   
+                   <!--Scale-->
+                   <Grid Margin="0 3" Grid.Row="2" ColumnDefinitions="* 2*">
+                       <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 5" Foreground="Azure">Scale</TextBlock>
+                       <Grid Grid.Column="1" ColumnDefinitions="Auto *">
+                           <TextBlock Foreground="Azure" FontWeight="DemiBold"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4 0">S</TextBlock>
+                           <TextBox Grid.Column="1" CornerRadius="3" HorizontalAlignment="Stretch" Text="{Binding Scale}"></TextBox>
+                       </Grid>
+                   </Grid>
+                   
+               </Grid>
+           </Border>
+       </Expander>
+</UserControl>

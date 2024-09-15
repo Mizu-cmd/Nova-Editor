@@ -1,0 +1,34 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Nova_Engine.App"
+             xmlns:local="using:Nova_Engine"
+             RequestedThemeVariant="Light">
+    
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="PrimaryColor">#353b48</Color>
+            <Color x:Key="SecondaryColor">#2a3061</Color>
+            <Color x:Key="AccentColor">#303c98</Color>
+            
+            <Color x:Key="SmallButtonBg">Azure</Color>
+            <Color x:Key="SmallButtonText">Black</Color>
+            <Color x:Key="ButtonBg">#303c98</Color>
+            <Color x:Key="ButtonBorder">#2a3061</Color>
+            <Color x:Key="ButtonText">Azure</Color>
+            <CornerRadius x:Key="BtnRadius">2</CornerRadius>
+        </ResourceDictionary>
+    </Application.Resources>
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+  
+    <Application.Styles>
+        <SimpleTheme />
+        <StyleInclude Source = "/TemplatedControls/SmallButtonControl.axaml" />
+        <StyleInclude Source = "/TemplatedControls/SmallIconButtonControl.axaml" />
+        <StyleInclude Source = "/TemplatedControls/ButtonControl.axaml" />
+        <StyleInclude Source = "/TemplatedControls/ButtonIconControl.axaml" />
+    </Application.Styles>
+</Application>

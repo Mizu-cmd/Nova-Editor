@@ -1,0 +1,24 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Nova_Engine.TemplatedControls"
+        xmlns:i="https://github.com/projektanker/icons.avalonia">
+    <Design.PreviewWith>
+        <controls:SmallIconButtonControl />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|SmallIconButtonControl">
+        <!-- Set Defaults -->
+        <Setter Property="Background" Value="{StaticResource SmallButtonBg}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource SmallButtonText}"></Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Button x:Name="PART_Button" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Foreground="{StaticResource SmallButtonText}" Background="{TemplateBinding Background}" CornerRadius="{StaticResource BtnRadius}">
+                    <WrapPanel>
+                        <i:Icon Foreground="{TemplateBinding IconColor}" Value="{TemplateBinding Icon}" FontSize="15"></i:Icon>
+                        <TextBlock Margin="2 0" FontWeight="Bold" Text="{TemplateBinding Text}"></TextBlock>
+                    </WrapPanel>
+                </Button>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

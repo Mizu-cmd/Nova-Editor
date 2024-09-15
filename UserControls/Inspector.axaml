@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Nova_Engine.ViewModels"
+             xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
+             xmlns:local="clr-namespace:Nova_Engine.Models.Components"
+             xmlns:comp="clr-namespace:Nova_Engine.UserControls.Components"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Nova_Engine.UserControls.Inspector"
+             x:DataType="viewModels:EditorViewModel">
+    <StackPanel Margin="3">
+    <Grid ColumnDefinitions="Auto *">
+        <Border Background="#042c62" CornerRadius="6" Margin="3">
+            <avalonia:Icon Foreground="Azure" FontSize="40" Margin="10"   Value="fa-solid fa-cube"/>
+        </Border>
+        <Border Grid.Column="1" BorderBrush="#042c62" Margin="3" BorderThickness="2" CornerRadius="3">
+        <Grid RowDefinitions="Auto Auto Auto">
+            <Grid ColumnDefinitions="Auto *">
+                <TextBox Grid.Column="1" CornerRadius="2" Margin="5 5" Text="{Binding SelectedEntity.Name }"/>
+            </Grid>
+            <Grid Grid.Row="1" Margin="10 5" ColumnDefinitions="Auto *">
+                <TextBlock Foreground="DimGray" FontSize="15">ID</TextBlock>
+                <TextBlock Foreground="DimGray"  Margin="5 0" Grid.Column="1" Text="{Binding SelectedEntity.Id }"/>
+            </Grid>
+        </Grid>
+        </Border>
+    </Grid>
+        <Separator Margin="10"></Separator>
+        <ItemsControl ItemsSource="{Binding SelectedEntity.Components}" Margin="5">
+            <ItemsControl.DataTemplates>
+                <!--Components-->
+                <DataTemplate DataType="{x:Type local:TransformComponent}">
+                    <comp:Transform DataContext="{Binding}"></comp:Transform>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type local:TextureComponent}">
+                    <comp:Texture></comp:Texture>
+                </DataTemplate>
+            </ItemsControl.DataTemplates>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

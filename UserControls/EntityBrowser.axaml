@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
+             xmlns:viewModels="clr-namespace:Nova_Engine.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Nova_Engine.UserControls.EntityBrowser"
+             x:DataType="viewModels:EditorViewModel">
+    
+    
+    <TreeView SelectionChanged="Hierarchy_OnSelectionChanged" Name="Hierarchy" ItemsSource="{Binding CurrentScene.Actors}" VerticalAlignment="Top" FontSize="15" Height="250" BorderBrush="Transparent" Margin="0 5">
+        <TreeView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel>
+                    <StackPanel.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Click="AddChild" Header="Add Child"/>
+                            <MenuItem Header="Delete" InputGesture="Delete"/>
+                            <MenuItem Click="Rename" Header="Rename" InputGesture="F2"/>
+                            <Separator></Separator>
+                            <MenuItem Header="Copy entity" InputGesture="Ctrl+c"></MenuItem>
+                        </ContextMenu>
+                    </StackPanel.ContextMenu>
+                </StackPanel>
+            </ItemsPanelTemplate>
+        </TreeView.ItemsPanel>
+        <TreeView.ItemTemplate>
+            <TreeDataTemplate ItemsSource="{Binding Children}">
+                <StackPanel Margin="-10 0 0 0" Orientation="Horizontal" IsEnabled="True">
+                        <avalonia:Icon Margin="10 0" Value="fa-solid fa-cube"/>
+                        <TextBox KeyDown="InputElement_OnKeyDown" Foreground="Azure" Background="Transparent" BorderBrush="Transparent" Text="{Binding Name}" FontSize="15"/>
+                </StackPanel>
+            </TreeDataTemplate>
+        </TreeView.ItemTemplate>
+    </TreeView>
+</UserControl>

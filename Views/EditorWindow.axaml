@@ -1,0 +1,90 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:Nova_Engine.ViewModels"
+        xmlns:tc="clr-namespace:Nova_Engine.TemplatedControls"
+        xmlns:userControls="clr-namespace:Nova_Engine.UserControls"
+        xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
+        mc:Ignorable="d" d:DesignWidth="2200" d:DesignHeight="800"
+        x:Class="Nova_Engine.Views.EditorWindow"
+        x:DataType="vm:EditorViewModel"
+        Icon="/Assets/nova-logo.ico"
+        Focusable="True"
+        Title="{Binding Project.Name}">
+        
+        <Design.DataContext>
+                <vm:EditorViewModel/>
+        </Design.DataContext>
+                
+        <DockPanel Background="#021631" LastChildFill="True">
+                <!--Inspect panel-->
+                <Grid DockPanel.Dock="Right" Width="300" Background="#03214a">
+                        <userControls:Inspector></userControls:Inspector>
+                </Grid>
+                <Grid DockPanel.Dock="Top" Height="50" Background="#021631">
+                        <Menu VerticalAlignment="Center">
+                                <MenuItem Margin="5" FontSize="15" Foreground="Azure" Header="_File">
+                                        <MenuItem Foreground="{StaticResource PrimaryColor}" Header="Close Project"/>
+                                        <MenuItem Foreground="{StaticResource PrimaryColor}" Header="Open Project"/>
+                                        <Separator></Separator>
+                                        <MenuItem Foreground="{StaticResource PrimaryColor}" Header="Save" InputGesture="Ctrl+S" Click="SaveMenu"/>
+                                        <MenuItem Foreground="{StaticResource PrimaryColor}" Header="Save as" InputGesture="Ctrl+Shift+S"/>
+                                </MenuItem>
+                                <MenuItem Margin="5" FontSize="15" Foreground="Azure" Header="_Settings">
+                                        <MenuItem Header="Project Settings"/>
+                                        <MenuItem Header="Editor Settings"/>
+                                </MenuItem>
+                        </Menu>
+                        <!--Start buttons-->
+                </Grid>
+                <!--Left panel-->
+                <Grid DockPanel.Dock="Left" Width="300" Background="#03214a" RowDefinitions="* Auto">
+                        <StackPanel Grid.Row="0">
+                                <Border Height="40" Margin="10" Padding="5" CornerRadius="3" Background="#042c62">
+                                        <Grid ColumnDefinitions="* Auto">
+                                                <tc:SmallIconButtonControl Text="Layer"></tc:SmallIconButtonControl>
+                                                <tc:SmallIconButtonControl Name="EntityAddBtn" Text="Add" Icon="fa-solid fa-plus" Margin=" 5 0 0 0" Grid.Column="1"></tc:SmallIconButtonControl>
+                                        </Grid>
+                                </Border>
+                                <Separator Grid.Row="1" Margin="10 0"/>
+                                <!--Hierarchy-->
+                                <TextBlock Margin="10" FontSize="15" Foreground="Azure" Text="{Binding CurrentScene.Name}"></TextBlock>
+                                <userControls:EntityBrowser DataContext="{Binding}" /> 
+                        </StackPanel>
+                        <!--Asset Browser-->
+                        <Separator Grid.Row="0" Margin="10" VerticalAlignment="Bottom"></Separator>
+                        <Grid RowDefinitions="Auto * Auto" Grid.Row="1" VerticalAlignment="Bottom">
+                                <Grid ColumnDefinitions="* Auto">
+                                        <TextBox Grid.Column="0" Margin="10 0" CornerRadius="3" Grid.Row="0"></TextBox>
+                                        <ComboBox CornerRadius="2" Background="#042c62" Grid.Column="1" Foreground="Azure" Width="80" Margin="0 0 10 0" SelectedIndex="0">
+                                                <ComboBoxItem>All</ComboBoxItem>
+                                                <ComboBoxItem>Scenes</ComboBoxItem>
+                                                <ComboBoxItem>Images</ComboBoxItem>
+                                                <ComboBoxItem>Scripts</ComboBoxItem>
+                                        </ComboBox>
+                                </Grid>
+                                <userControls:AssetBrowser Grid.Row="1" Name="AssetBrowser" Height="250" Margin="10" Background="#042c62" CornerRadius="6"/>
+                        </Grid>
+                </Grid>
+                <!--Footer bottom bar-->
+                <Border DockPanel.Dock="Bottom" Margin="5" Background="#042c62" Height="35" CornerRadius="3">
+                        
+                </Border>
+                <!--Viewport-->
+                <Grid RowDefinitions="Auto *" Margin="6 0">
+                        <Border CornerRadius="3" Background="#03214a" Margin="0 0 0 5" Grid.Row="0" HorizontalAlignment="Stretch">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <avalonia:Icon PointerPressed="StopBtn_OnPointerPressed" Margin="5" Value="fa-solid fa-stop" HorizontalAlignment="Center" Foreground="IndianRed" FontSize="25"></avalonia:Icon>
+                                        <avalonia:Icon PointerPressed="StartBtn_OnPointerPressed" Margin="5" Value="fa-solid fa-play" HorizontalAlignment="Center" Foreground="SeaGreen" FontSize="25"></avalonia:Icon>
+                                </StackPanel>
+                        </Border>
+                        <Border Grid.Row="1" Background="Gainsboro" CornerRadius="3">
+                                <Canvas>
+                                        <Rectangle Fill="Brown" Canvas.Top="200" Canvas.Left="200" Width="50" Height="50" ></Rectangle>
+                                        <Rectangle Fill="Green" Canvas.Top="150" Canvas.Left="223" Width="5" Height="50" ></Rectangle>
+                                </Canvas>
+                        </Border>
+                </Grid>
+        </DockPanel>
+</Window>

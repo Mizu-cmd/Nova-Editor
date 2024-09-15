@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:Nova_Engine.ViewModels"
+             xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
+             xmlns:templatedControls="clr-namespace:Nova_Engine.TemplatedControls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Nova_Engine.UserControls.AssetBrowser"
+             x:DataType="viewModels:AssetBrowserViewModel">
+    
+    <Design.DataContext>
+        <viewModels:AssetBrowserViewModel/>
+    </Design.DataContext>
+    <Grid ColumnDefinitions="* Auto">
+        <TreeView BorderBrush="Transparent" ItemsSource="{Binding Directories}">
+            <TreeView.ItemTemplate>
+                <TreeDataTemplate ItemsSource="{Binding Children}">
+                    <StackPanel Margin="-10 0 0 0" Orientation="Horizontal">
+                        <avalonia:Icon Foreground="#021631" Value="{Binding Icon}" FontSize="15" Margin="10 0"/>
+                        <TextBlock Foreground="Azure" Text="{Binding Name}" FontSize="15"></TextBlock>
+                    </StackPanel>
+                </TreeDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        <templatedControls:SmallIconButtonControl Grid.Column="1" Margin="10" Text="" Icon="fa-solid fa-rotate-right" VerticalAlignment="Bottom" Height="30" Width="30"/>        
+    </Grid>
+</UserControl>

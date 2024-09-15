@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:components="clr-namespace:Nova_Engine.Models.Components"
+             x:DataType="components:TextureComponent"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Nova_Engine.UserControls.Components.Texture">
+
+    <Expander IsExpanded="True">
+           <Expander.Header>
+               <TextBlock Foreground="Azure" FontSize="15">Texture</TextBlock>
+           </Expander.Header>
+           <Border Background="#042c62" CornerRadius="3">
+               <StackPanel>
+                   <TextBox Text="{Binding FullPath}" />
+                   <Image Source="{Binding }"></Image>
+               </StackPanel>
+           </Border>
+       </Expander>
+</UserControl>

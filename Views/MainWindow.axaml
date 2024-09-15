@@ -1,0 +1,85 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Nova_Engine.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:templatedControls="clr-namespace:Nova_Engine.TemplatedControls"
+        mc:Ignorable="d" d:DesignWidth="917" d:DesignHeight="550"
+        x:Class="Nova_Engine.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        MinWidth="917"
+        MinHeight="550"
+        Width="900"
+        Height="550"
+        Icon="/Assets/nova-logo.ico"
+        Title="Nova Game Engine">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    
+    <DockPanel LastChildFill="True" Background="{StaticResource SecondaryColor}">
+        <Border Height="70" Background="{StaticResource PrimaryColor}" DockPanel.Dock="Top" >
+            <Grid RenderOptions.BitmapInterpolationMode="HighQuality" ColumnDefinitions="Auto, Auto, *, Auto">
+                <Image Grid.Column="0" Source="/Assets/nova-logo.png" HorizontalAlignment="Left" Height="50" Width="50" Margin="10" />
+                <Image Grid.Column="1" Source="/Assets/logo-title.png" Height="30" />
+                <templatedControls:SmallIconButtonControl Grid.Column="2"
+                                                          Text="Settings"
+                                                          HorizontalAlignment="Right" 
+                                                          Height="30" 
+                                                          Width="110" 
+                                                          CornerRadius="{StaticResource BtnRadius}" 
+                                                          Margin="0 0 20 0 " 
+                                                          FontSize="15"
+                                                          FontWeight="Regular"
+                                                          Icon="fa-solid fa-screwdriver-wrench"/>
+            </Grid>
+        </Border>
+        <Border Height="50" Background="{StaticResource SecondaryColor}" DockPanel.Dock="Top">
+            <Grid Margin="10" ColumnDefinitions="Auto Auto Auto Auto Auto *">
+                <TextBox Name="FilterTextBox" TextChanged="TextBox_OnTextChanged" Grid.Column="0" Height="30" Width="450" 
+                         HorizontalAlignment="Left" Background="{StaticResource PrimaryColor}" 
+                         CornerRadius="{StaticResource BtnRadius}"
+                         Foreground="White" Watermark="Search Projects" />
+                <templatedControls:SmallIconButtonControl Name="ButtonCreate" Grid.Column="1" Margin="20 0 10 0" Height="30" Width="70" Text="Create" />
+                <templatedControls:SmallIconButtonControl Name="ButtonImport" Grid.Column="2" Height="30" Width="70" Text="Import" Icon="fa-solid fa-folder-open" />
+                <templatedControls:SmallIconButtonControl Name="ButtonScan" Grid.Column="3" Height="30" Width="70" Text="Scan" Icon="fa-solid fa-magnifying-glass" Margin="10 0 15 0"/>
+                <TextBlock Grid.Column="4" VerticalAlignment="Center" FontSize="15" Foreground="White">Sort :</TextBlock>
+                <ComboBox Name="Sort" SelectionChanged="SelectingItemsControl_OnSelectionChanged" Grid.Column="5" Margin="10 0" CornerRadius="{StaticResource BtnRadius}" SelectedIndex="0" Background="White">
+                    <ComboBoxItem Name="LastEdited" CornerRadius="2" BorderBrush="Transparent">Last Edited</ComboBoxItem>
+                    <ComboBoxItem Name="CreationDate" CornerRadius="2" BorderBrush="Transparent">Creation Date</ComboBoxItem>
+                    <ComboBoxItem Name="Alphabetical" CornerRadius="2" BorderBrush="Transparent">Alphabetical</ComboBoxItem>
+                </ComboBox>
+            </Grid>
+        </Border>
+        <Border Height="25" Background="{StaticResource PrimaryColor}" Margin="5" CornerRadius="2" DockPanel.Dock="Bottom">
+            <TextBlock Foreground="White" Text="{Binding Version}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10 0" />
+        </Border>
+        <Border Width="200" Background="{StaticResource PrimaryColor}" CornerRadius="8" DockPanel.Dock="Right">
+            <Grid RowDefinitions="Auto Auto Auto *">
+                <templatedControls:ButtonIconControl Name="ButtonLaunch" Grid.Row="0" Height="40" Margin="10 5 10 5" Text="Launch" Icon="fa-solid fa-play" IconColor="SeaGreen"/>
+                <templatedControls:ButtonIconControl Name="ButtonRename" Grid.Row="1" Height="40" Margin="10 0 10 5" Text="Rename" Icon="fa-solid fa-pen" IconColor="Azure"/>
+                <templatedControls:ButtonIconControl Name="ButtonDelete" Grid.Row="2" Height="40" Margin="10 0 10 5" Text="Delete" Icon="fa-solid fa-trash" IconColor="#e84118"/>
+                <templatedControls:ButtonIconControl Name="ButtonClean" Grid.Row="3" VerticalAlignment="Bottom" Height="40" Margin="10 0 10 10" Text="Cleanup missing" Icon="fa-solid fa-broom" IconColor="Azure"/>
+            </Grid>
+        </Border>
+        <Border Background="{StaticResource SecondaryColor}">
+            <Border Margin=" 5 0 5 0" Background="{StaticResource PrimaryColor}" CornerRadius="8">
+                <ListBox Name="ProjectList" Background="Transparent" ItemsSource="{Binding Projects}" CornerRadius="8">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="2" BorderBrush="{StaticResource SecondaryColor}" Margin="3" Background="{StaticResource AccentColor}" CornerRadius="5">
+                                <StackPanel Margin="5">
+                                    <TextBlock Foreground="White" Text="{Binding Name}" FontWeight="Bold"/>
+                                    <TextBlock Foreground="White" Text="{Binding CreationDate, StringFormat='{}Created: {0:dd MMM yyyy}'}"/>
+                                    <TextBlock Text="{Binding Path}" FontStyle="Italic" Foreground="Gray"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+        </Border>
+    </DockPanel>
+
+</Window>
