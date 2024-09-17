@@ -9,7 +9,7 @@
              x:DataType="viewModels:EditorViewModel">
     
     
-    <TreeView SelectionChanged="Hierarchy_OnSelectionChanged" Name="Hierarchy" ItemsSource="{Binding CurrentScene.Actors}" VerticalAlignment="Top" FontSize="15" Height="250" BorderBrush="Transparent" Margin="0 5">
+    <TreeView SelectedItem="{Binding SelectedEntity}" SelectionChanged="Hierarchy_OnSelectionChanged" Name="Hierarchy" ItemsSource="{Binding CurrentScene.Actors}" VerticalAlignment="Top" FontSize="15" Height="250" BorderBrush="Transparent" Margin="0 5">
         <TreeView.ItemsPanel>
             <ItemsPanelTemplate>
                 <StackPanel>

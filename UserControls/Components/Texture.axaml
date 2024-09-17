@@ -4,18 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:components="clr-namespace:Nova_Engine.Models.Components"
              x:DataType="components:TextureComponent"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="150" d:DesignHeight="200"
              x:Class="Nova_Engine.UserControls.Components.Texture">
 
     <Expander IsExpanded="True">
            <Expander.Header>
                <TextBlock Foreground="Azure" FontSize="15">Texture</TextBlock>
            </Expander.Header>
-           <Border Background="#042c62" CornerRadius="3">
-               <StackPanel>
-                   <TextBox Text="{Binding FullPath}" />
-                   <Image IsVisible="{Binding }"></Image>
-               </StackPanel>
+           <Border Background="#042c62" CornerRadius="3" >
+               <Grid ColumnDefinitions="* 2*" RowDefinitions="Auto Auto" Margin="10">
+                   <TextBlock Margin="10" VerticalAlignment="Center" Foreground="Azure">Texture</TextBlock>
+                   <Border DragDrop.AllowDrop="True" CornerRadius="3" Background="#03214a" Grid.Row="0" MaxWidth="90" MaxHeight="90" Margin="5" Grid.Column="1">
+                        <Image Margin="5" Name="Test" Source="{ Binding Bitmap}"></Image>
+                   </Border>
+                    <TextBlock Margin="10" Grid.Column="1" Grid.Row="1" Foreground="Azure" FontSize="15" HorizontalAlignment="Center" Text="{Binding TextureName}"></TextBlock>
+               </Grid>
            </Border>
        </Expander>
 </UserControl>

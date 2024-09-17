@@ -6,6 +6,8 @@
         xmlns:tc="clr-namespace:Nova_Engine.TemplatedControls"
         xmlns:userControls="clr-namespace:Nova_Engine.UserControls"
         xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
+        xmlns:object="clr-namespace:Nova_Engine.Object"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d" d:DesignWidth="2200" d:DesignHeight="800"
         x:Class="Nova_Engine.Views.EditorWindow"
         x:DataType="vm:EditorViewModel"
@@ -17,17 +19,17 @@
                 <vm:EditorViewModel/>
         </Design.DataContext>
                 
-        <DockPanel Background="#021631" LastChildFill="True">
+        <DockPanel RenderOptions.EdgeMode="Antialias" RenderOptions.TextRenderingMode="Antialias" RenderOptions.BitmapInterpolationMode="HighQuality" Background="#021631" LastChildFill="True">
                 <!--Inspect panel-->
                 <Grid DockPanel.Dock="Right" Width="300" Background="#03214a">
-                        <userControls:Inspector></userControls:Inspector>
+                        <userControls:Inspector />
                 </Grid>
                 <Grid DockPanel.Dock="Top" Height="50" Background="#021631">
                         <Menu VerticalAlignment="Center">
                                 <MenuItem Margin="5" FontSize="15" Foreground="Azure" Header="_File">
                                         <MenuItem Foreground="{StaticResource PrimaryColor}" Header="Close Project"/>
                                         <MenuItem Foreground="{StaticResource PrimaryColor}" Header="Open Project"/>
-                                        <Separator></Separator>
+                                        <Separator />
                                         <MenuItem Foreground="{StaticResource PrimaryColor}" Header="Save" InputGesture="Ctrl+S" Click="SaveMenu"/>
                                         <MenuItem Foreground="{StaticResource PrimaryColor}" Header="Save as" InputGesture="Ctrl+Shift+S"/>
                                 </MenuItem>
@@ -43,20 +45,20 @@
                         <StackPanel Grid.Row="0">
                                 <Border Height="40" Margin="10" Padding="5" CornerRadius="3" Background="#042c62">
                                         <Grid ColumnDefinitions="* Auto">
-                                                <tc:SmallIconButtonControl Text="Layer"></tc:SmallIconButtonControl>
-                                                <tc:SmallIconButtonControl Name="EntityAddBtn" Text="Add" Icon="fa-solid fa-plus" Margin=" 5 0 0 0" Grid.Column="1"></tc:SmallIconButtonControl>
+                                                <tc:SmallIconButtonControl Text="Layer" />
+                                                <tc:SmallIconButtonControl Name="EntityAddBtn" Text="Add" Icon="fa-solid fa-plus" Margin=" 5 0 0 0" Grid.Column="1" />
                                         </Grid>
                                 </Border>
                                 <Separator Grid.Row="1" Margin="10 0"/>
                                 <!--Hierarchy-->
-                                <TextBlock Margin="10" FontSize="15" Foreground="Azure" Text="{Binding CurrentScene.Name}"></TextBlock>
+                                <TextBlock Margin="10" FontSize="15" Foreground="Azure" Text="{Binding CurrentScene.Name}" />
                                 <userControls:EntityBrowser DataContext="{Binding}" /> 
                         </StackPanel>
                         <!--Asset Browser-->
-                        <Separator Grid.Row="0" Margin="10" VerticalAlignment="Bottom"></Separator>
+                        <Separator Grid.Row="0" Margin="10" VerticalAlignment="Bottom" />
                         <Grid RowDefinitions="Auto * Auto" Grid.Row="1" VerticalAlignment="Bottom">
                                 <Grid ColumnDefinitions="* Auto">
-                                        <TextBox Grid.Column="0" Margin="10 0" CornerRadius="3" Grid.Row="0"></TextBox>
+                                        <TextBox Grid.Column="0" Margin="10 0" CornerRadius="3" Grid.Row="0" />
                                         <ComboBox CornerRadius="2" Background="#042c62" Grid.Column="1" Foreground="Azure" Width="80" Margin="0 0 10 0" SelectedIndex="0">
                                                 <ComboBoxItem>All</ComboBoxItem>
                                                 <ComboBoxItem>Scenes</ComboBoxItem>
@@ -68,23 +70,87 @@
                         </Grid>
                 </Grid>
                 <!--Footer bottom bar-->
-                <Border DockPanel.Dock="Bottom" Margin="5" Background="#042c62" Height="35" CornerRadius="3">
-                        
-                </Border>
+                <Border DockPanel.Dock="Bottom" Margin="5" Background="#042c62" Height="35" CornerRadius="3" />
                 <!--Viewport-->
-                <Grid RowDefinitions="Auto *" Margin="6 0">
-                        <Border CornerRadius="3" Background="#03214a" Margin="0 0 0 5" Grid.Row="0" HorizontalAlignment="Stretch">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <avalonia:Icon PointerPressed="StopBtn_OnPointerPressed" Margin="5" Value="fa-solid fa-stop" HorizontalAlignment="Center" Foreground="IndianRed" FontSize="25"></avalonia:Icon>
-                                        <avalonia:Icon PointerPressed="StartBtn_OnPointerPressed" Margin="5" Value="fa-solid fa-play" HorizontalAlignment="Center" Foreground="SeaGreen" FontSize="25"></avalonia:Icon>
-                                </StackPanel>
-                        </Border>
-                        <Border Grid.Row="1" Background="Gainsboro" CornerRadius="3">
+                <Grid ColumnDefinitions="Auto *" RowDefinitions="Auto * Auto" Margin="6 0">
+                        
+                        <!--Tool Bar-->
+                        <StackPanel Grid.Column="1" Grid.Row="0">
+                                <Border CornerRadius="3" Background="#03214a" Margin="0 0 0 5" HorizontalAlignment="Stretch">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <avalonia:Icon PointerPressed="StopBtn_OnPointerPressed" Margin="5" Value="fa-solid fa-stop" HorizontalAlignment="Center" Foreground="IndianRed" FontSize="25" />
+                                                <avalonia:Icon PointerPressed="StartBtn_OnPointerPressed" Margin="5" Value="fa-solid fa-play" HorizontalAlignment="Center" Foreground="SeaGreen" FontSize="25" />
+                                        </StackPanel>
+                                </Border>
+                                <!--X ruler-->
+                                <ItemsControl Margin="0 -5 0 0" Name="RulerX">
+                                        <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal"></StackPanel>
+                                                </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                                <DataTemplate x:DataType="system:String">
+                                                        <Border BorderBrush="#03214a" BorderThickness="0 0 2 0">
+                                                                <TextBlock Foreground="Azure" Margin="0 2" Padding="3" Width="100" Text="{Binding }"></TextBlock>
+                                                        </Border>
+                                                </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                        </StackPanel>
+                        
+                        <!--Y ruler-->
+                        <ItemsControl Grid.Column="0" Grid.Row="1" Margin="-5 0 0 0" Name="RulerY">
+                                <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical"></StackPanel>
+                                        </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="system:String">
+                                                <Border BorderBrush="#042c62" BorderThickness="0 0 0 2">
+                                                        <LayoutTransformControl>
+                                                                <LayoutTransformControl.LayoutTransform>
+                                                                        <RotateTransform Angle="270"/>
+                                                                </LayoutTransformControl.LayoutTransform>
+                                                                <TextBlock Foreground="Azure" TextAlignment="Right" Padding="5" Width="100" Text="{Binding}"></TextBlock>
+                                                        </LayoutTransformControl>
+                                                </Border>
+                                        </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ZoomBorder Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Name="ZoomBorder" ClipToBounds="True" Focusable="True" 
+                                    ZoomSpeed="1.2" Background="DimGray" CornerRadius="3">
                                 <Canvas>
-                                        <Rectangle Fill="Brown" Canvas.Top="200" Canvas.Left="200" Width="50" Height="50" ></Rectangle>
-                                        <Rectangle Fill="Green" Canvas.Top="150" Canvas.Left="223" Width="5" Height="50" ></Rectangle>
+                                        <Canvas.RenderTransform><ScaleTransform ScaleY="-1"></ScaleTransform></Canvas.RenderTransform>
+                                        <Line ZIndex="10" Opacity="0.5" Name="XAxis" StartPoint="0,0" Stroke="IndianRed" StrokeThickness="2"/>
+                                        <Line ZIndex="10" Opacity="0.5" Name="YAxis" StartPoint="0,0" Stroke="SeaGreen" StrokeThickness="2"/>
+                                        <ItemsControl Name="Test" ClipToBounds="False" ItemsSource="{Binding CurrentScene.Actors}">
+                                                <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                                <Canvas />
+                                                        </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.Styles>
+                                                        <Style Selector="ContentPresenter" x:DataType="object:Entity">
+                                                                <Setter Property="RenderTransform" Value="{Binding EntityRenderer.Transform}"/>
+                                                                <Setter Property="Canvas.Left" Value="{Binding EntityRenderer.PosX}"></Setter>
+                                                                <Setter Property="Canvas.Bottom" Value="{Binding EntityRenderer.PosY}"></Setter>
+                                                        </Style>
+                                                </ItemsControl.Styles>
+                                                <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                                <Border BorderThickness="3" BorderBrush="{Binding EntityRenderer.SelectionBrush}">
+                                                                        <Image PointerPressed="InputElement_OnPointerPressed" Width="{Binding  EntityRenderer.Width }" 
+                                                                               Height="{Binding EntityRenderer.Height}" 
+                                                                               Source="{ Binding EntityRenderer.Bitmap }"
+                                                                        />
+                                                                </Border>
+                                                        </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
                                 </Canvas>
-                        </Border>
+                        </ZoomBorder>
                 </Grid>
         </DockPanel>
 </Window>

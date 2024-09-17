@@ -17,11 +17,11 @@
                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 5" Foreground="Azure">Position</TextBlock>
                        <Grid Grid.Column="1" ColumnDefinitions="Auto *">
                            <TextBlock Foreground="Azure" FontWeight="DemiBold"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4 0">X</TextBlock>
-                           <TextBox Grid.Column="1" CornerRadius="3" HorizontalAlignment="Stretch" Text="{Binding Position.X}"></TextBox>
+                           <NumericUpDown PointerPressed="OnPointerPressed" PointerReleased="OnPointerReleased" PointerMoved="OnMouseDragged" Grid.Column="1" Increment="1" CornerRadius="3" HorizontalAlignment="Stretch" Value="{Binding posX}" />
                        </Grid>
                        <Grid Grid.Column="2" ColumnDefinitions="Auto *">
                            <TextBlock Foreground="Azure" FontWeight="DemiBold"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4 0">Y</TextBlock>
-                           <TextBox Grid.Column="1" CornerRadius="3" HorizontalAlignment="Stretch" Text="{Binding Position.Y}"></TextBox>
+                           <NumericUpDown PointerPressed="OnPointerPressed" PointerReleased="OnPointerReleased" PointerMoved="OnMouseDragged" Grid.Column="1" Increment="1" CornerRadius="3" HorizontalAlignment="Stretch" Value="{Binding posY}" />
                        </Grid>
                    </Grid>
                    
@@ -30,11 +30,11 @@
                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 5" Foreground="Azure">Rotation</TextBlock>
                        <Grid Grid.Column="1" ColumnDefinitions="Auto *">
                            <TextBlock Foreground="Azure" FontWeight="DemiBold"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4 0">X</TextBlock>
-                           <TextBox Grid.Column="1" CornerRadius="3" HorizontalAlignment="Stretch" Text="{Binding Rotation.X}"></TextBox>
+                           <NumericUpDown PointerPressed="OnPointerPressed" PointerReleased="OnPointerReleased" PointerMoved="OnMouseDragged" Grid.Column="1" Increment="1" CornerRadius="3" HorizontalAlignment="Stretch" Value="{Binding Rot}" />
                        </Grid>
                        <Grid Grid.Column="2" ColumnDefinitions="Auto *">
                            <TextBlock Foreground="Azure" FontWeight="DemiBold"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4 0">Y</TextBlock>
-                           <TextBox Grid.Column="1" CornerRadius="3" HorizontalAlignment="Stretch" Text="{Binding Rotation.Y}"></TextBox>
+                           <NumericUpDown Grid.Column="1" Increment="1" CornerRadius="3" HorizontalAlignment="Stretch" Value="0" />
                        </Grid>
                    </Grid>
                    
@@ -43,7 +43,7 @@
                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 5" Foreground="Azure">Scale</TextBlock>
                        <Grid Grid.Column="1" ColumnDefinitions="Auto *">
                            <TextBlock Foreground="Azure" FontWeight="DemiBold"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4 0">S</TextBlock>
-                           <TextBox Grid.Column="1" CornerRadius="3" HorizontalAlignment="Stretch" Text="{Binding Scale}"></TextBox>
+                           <NumericUpDown Name="Scale" PointerPressed="OnPointerPressed" PointerReleased="OnPointerReleased" PointerMoved="OnMouseDragged" Grid.Column="1" Increment="0.1" CornerRadius="3" HorizontalAlignment="Stretch" Value="{Binding Scale}" />
                        </Grid>
                    </Grid>
                    

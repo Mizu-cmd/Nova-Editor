@@ -31,7 +31,7 @@
             <ItemsControl.DataTemplates>
                 <!--Components-->
                 <DataTemplate DataType="{x:Type local:TransformComponent}">
-                    <comp:Transform DataContext="{Binding}"></comp:Transform>
+                    <comp:Transform Margin="0 10" DataContext="{Binding}"></comp:Transform>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type local:TextureComponent}">
                     <comp:Texture></comp:Texture>

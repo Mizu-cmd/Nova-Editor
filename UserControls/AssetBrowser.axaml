@@ -13,7 +13,12 @@
         <viewModels:AssetBrowserViewModel/>
     </Design.DataContext>
     <Grid ColumnDefinitions="* Auto">
-        <TreeView BorderBrush="Transparent" ItemsSource="{Binding Directories}">
+        <TreeView Name="AssetBrowserView" BorderBrush="Transparent" ItemsSource="{Binding Directories}">
+            <TreeView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel PointerPressed="InputElement_OnPointerPressed"></StackPanel>
+                </ItemsPanelTemplate>
+            </TreeView.ItemsPanel>
             <TreeView.ItemTemplate>
                 <TreeDataTemplate ItemsSource="{Binding Children}">
                     <StackPanel Margin="-10 0 0 0" Orientation="Horizontal">

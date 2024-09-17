@@ -7,5 +7,5 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Nova_Engine.UserControls.ImageInput">
     
-    <TextBox Text="{Binding FullPath}"></TextBox>
+    <TextBox Text="{Binding TexturePath}"></TextBox>
 </UserControl>

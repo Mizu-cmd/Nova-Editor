@@ -1,4 +1,3 @@
-using System;
 using System.Collections.ObjectModel;
 using System.IO;
 
@@ -8,19 +7,23 @@ public class DirectoryNode
 {
     public string Name { get; set; }
     public string Icon { get; set; }
+    public string FullPath { get; set; }
+    public bool IsDirectory { get; set; }
     public ObservableCollection<DirectoryNode> Children { get; set; }
 
     public DirectoryNode(string path)
     {
-        Name = Path.GetFileName(path).Split(".")[0];
+        FullPath = path.Replace('\\', '/');
+        Name = Path.GetFileName(FullPath).Split(".")[0];
+        IsDirectory = File.GetAttributes(FullPath).HasFlag(FileAttributes.Directory);
         Children = new ObservableCollection<DirectoryNode>();
-        SetIcon(path);
-        LoadSubDirectories(path);
+        SetIcon(FullPath);
+        LoadSubDirectories(FullPath);
     }
 
     private void SetIcon(string path)
     {
-        if (File.GetAttributes(path).HasFlag(FileAttributes.Directory))
+        if (IsDirectory)
             Icon = "fa-solid fa-folder";
         else if (path.EndsWith(".scene"))
             Icon = "fa-solid fa-clapperboard";
@@ -31,14 +34,10 @@ public class DirectoryNode
     
     private void LoadSubDirectories(string path)
     {
-        try
+        if (File.GetAttributes(path).HasFlag(FileAttributes.Directory))
         {
             foreach (var directory in Directory.GetFileSystemEntries(path))
                 Children.Add(new DirectoryNode(directory));
-        }
-        catch
-        {
-            // Handle exceptions (e.g., access denied) if needed
         }
     }
 }

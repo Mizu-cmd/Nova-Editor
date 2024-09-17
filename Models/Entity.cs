@@ -1,12 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using Nova_Engine.Models;
 using Nova_Engine.Models.Components;
 using Nova_Engine.NovaLib.Editor;
-using ReactiveUI;
 
 namespace Nova_Engine.Object;
 
@@ -32,6 +34,8 @@ public class Entity : INotifyPropertyChanged
         }
     }
     public string Id { get; private set; }
+    
+    public EntityRenderer EntityRenderer {get; private set;}
 
     [DataMember]
     private ObservableCollection<IEntityComponent> _components;
@@ -59,6 +63,9 @@ public class Entity : INotifyPropertyChanged
         }
     }
 
+    public TransformComponent TransformComponent => _components.OfType<TransformComponent>().First();
+    public List<TextureComponent> TextureComponents => _components.OfType<TextureComponent>().ToList();
+
     [DllImport(_dllImportPath, CallingConvention = CallingConvention.StdCall)]
     private static extern IntPtr createEntity();
     
@@ -77,6 +84,7 @@ public class Entity : INotifyPropertyChanged
         Id = Guid.NewGuid().ToString();
         _components = new ObservableCollection<IEntityComponent>();
         _children = new ObservableCollection<Entity>();
+        EntityRenderer = new EntityRenderer();
         LoadEntity();
     }
     
@@ -84,9 +92,12 @@ public class Entity : INotifyPropertyChanged
 
     public void LoadComponents()
     {
+        EntityRenderer = new EntityRenderer();
+        TextureComponents.ForEach((component => component.LoadComponent(this)));
         foreach (var comp in _components)
         {
-            comp.LoadComponent();
+            if (!(comp is TextureComponent))
+             comp.LoadComponent(this);
             addComponent(_pointer, comp.GetPointer());
         }
     }

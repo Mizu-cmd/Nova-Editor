@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using Avalonia.Media.Imaging;
 using Nova_Engine.NovaLib.Editor;
+using Nova_Engine.Object;
 
 namespace Nova_Engine.Models.Components;
 
@@ -13,11 +14,10 @@ public class TextureComponent : IEntityComponent, INotifyPropertyChanged
 {
     private IntPtr _pointer = IntPtr.Zero;
     private const string _dllImportPath = "libNova_Editor";
-    
-    [DllImport(_dllImportPath, CallingConvention = CallingConvention.StdCall)]
-    private static extern IntPtr createTexture();
-    
     private Bitmap _bitmap;
+    private Entity _entity;
+    
+    [DataMember] public string TexturePath { get; set; }
 
     public Bitmap Bitmap
     {
@@ -25,36 +25,35 @@ public class TextureComponent : IEntityComponent, INotifyPropertyChanged
         set
         {
             _bitmap = value;
+            _entity.EntityRenderer.Bitmap = _bitmap;
             OnPropertyChanged();
         }
     }
-
+    
     [DataMember]
-    public string TextureName { get; set; }
-    [DataMember]
-    public string TexturePath { get; set; }
+    private string _textureName;
 
-    [DataMember] private string _fullPath = "";
-    public string FullPath
+    public string TextureName
     {
-        get => _fullPath;
+        get => _textureName; 
         set
         {
-            Bitmap = new Bitmap(value);
-            _fullPath = value;
+            _textureName = value;
             OnPropertyChanged();
         }
     }
+    
     public IntPtr GetPointer() => _pointer;
-    public void LoadComponent() {}
-    
-    
-    public void LoadTextureToEngine()
-    {
-        Bitmap btm = new Bitmap(FullPath);
-        Console.WriteLine(btm);
-    }
 
+    public void LoadComponent(Entity entity)
+    {
+        _entity = entity;
+        if (TexturePath != null) Bitmap = new Bitmap(TexturePath);
+    }
+    
+    [DllImport(_dllImportPath, CallingConvention = CallingConvention.StdCall)]
+    private static extern IntPtr createTexture();
+    
     public event PropertyChangedEventHandler? PropertyChanged;
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {

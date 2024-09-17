@@ -18,9 +18,9 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
     
-    <DockPanel LastChildFill="True" Background="{StaticResource SecondaryColor}">
+    <DockPanel RenderOptions.BitmapInterpolationMode="HighQuality" LastChildFill="True" Background="{StaticResource SecondaryColor}">
         <Border Height="70" Background="{StaticResource PrimaryColor}" DockPanel.Dock="Top" >
-            <Grid RenderOptions.BitmapInterpolationMode="HighQuality" ColumnDefinitions="Auto, Auto, *, Auto">
+            <Grid ColumnDefinitions="Auto, Auto, *, Auto">
                 <Image Grid.Column="0" Source="/Assets/nova-logo.png" HorizontalAlignment="Left" Height="50" Width="50" Margin="10" />
                 <Image Grid.Column="1" Source="/Assets/logo-title.png" Height="30" />
                 <templatedControls:SmallIconButtonControl Grid.Column="2"
