@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using Avalonia;
@@ -9,7 +12,7 @@ using Nova_Engine.Object;
 namespace Nova_Engine.Models.Components;
 
 [DataContract]
-public class TransformComponent : IEntityComponent
+public class TransformComponent : IEntityComponent, INotifyPropertyChanged
 {
     private const string _dllImportPath = "libNova_Engine";
     
@@ -20,11 +23,48 @@ public class TransformComponent : IEntityComponent
     private float _x, _y, _rot;
     [DataMember]
     private float _scale = 1;
-    
-    public float posX {get => _x; set { _x = value; UpdateEntityRender(); } }
-    public float posY {get => _y; set { _y = value; UpdateEntityRender(); } }
-    public float Rot {get => _rot; set { _rot = value; UpdateEntityRender(); } }
-    public float Scale {get => _scale; set { _scale = value; UpdateEntityRender(); } }
+
+    public float posX
+    {
+        get => _x;
+        set
+        {
+            _x = value; UpdateEntityRender();
+            OnPropertyChanged();
+        }
+    }
+
+    public float posY
+    {
+        get => _y;
+        set
+        {
+            _y = value; UpdateEntityRender();
+            OnPropertyChanged();
+        }
+    }
+
+    public float Rot
+    {
+        get => _rot;
+        set
+        {
+            _rot = value; 
+            UpdateEntityRender();
+            OnPropertyChanged();
+        }
+    }
+
+    public float Scale
+    {
+        get => _scale;
+        set
+        {
+            _scale = value; 
+            UpdateEntityRender();
+            OnPropertyChanged();
+        }
+    }
     
     [DllImport(_dllImportPath, CallingConvention = CallingConvention.StdCall)]
     private static extern IntPtr createTransform(float x, float y, float xRot, float yRot, float scale);
@@ -54,7 +94,14 @@ public class TransformComponent : IEntityComponent
         var mi = Matrix.Identity;
         mi *= Matrix.CreateRotation(_rot * Math.PI / 180);
         renderer.Transform = new MatrixTransform(mi);
+        renderer.UpdateGizmo();
     }
     
     public IntPtr GetPointer() => _pointer;
+    
+    public event PropertyChangedEventHandler? PropertyChanged;
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 }

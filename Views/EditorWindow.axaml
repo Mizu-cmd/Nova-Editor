@@ -121,11 +121,11 @@
                         </ItemsControl>
                         <ZoomBorder Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Name="ZoomBorder" ClipToBounds="True" Focusable="True" 
                                     ZoomSpeed="1.2" Background="DimGray" CornerRadius="3">
-                                <Canvas>
+                                <Canvas Name="Viewport">
                                         <Canvas.RenderTransform><ScaleTransform ScaleY="-1"></ScaleTransform></Canvas.RenderTransform>
                                         <Line ZIndex="10" Opacity="0.5" Name="XAxis" StartPoint="0,0" Stroke="IndianRed" StrokeThickness="2"/>
                                         <Line ZIndex="10" Opacity="0.5" Name="YAxis" StartPoint="0,0" Stroke="SeaGreen" StrokeThickness="2"/>
-                                        <ItemsControl Name="Test" ClipToBounds="False" ItemsSource="{Binding CurrentScene.Actors}">
+                                        <ItemsControl Name="Entities" ClipToBounds="False" ItemsSource="{Binding CurrentScene.Actors}">
                                                 <ItemsControl.ItemsPanel>
                                                         <ItemsPanelTemplate>
                                                                 <Canvas />

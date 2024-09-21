@@ -1,5 +1,4 @@
 using System;
-using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
@@ -23,7 +22,9 @@ public partial class EditorWindow : Window
     
     [DllImport(_dllImportPath, CallingConvention = CallingConvention.StdCall)]
     private static extern void stop();
-    
+
+    public static Canvas EditorViewport { get; private set; }
+
     private readonly ZoomBorder? _zoomBorder;
     private string[] _rulerX, _rulerY;
     
@@ -32,13 +33,14 @@ public partial class EditorWindow : Window
         InitializeComponent();
         _zoomBorder = this.Find<ZoomBorder>("ZoomBorder");
         EntityAddBtn.ButtonClicked += EntityAddBtn_Click;
+        
         if (_zoomBorder != null)
-        {
             _zoomBorder.ZoomChanged += ZoomBorder_ZoomChanged;
-        }
+        
+        EditorViewport = this.Find<Canvas>("Viewport");
     }
 
-    public EditorViewModel? EditorViewModel =>  DataContext as EditorViewModel;
+    public EditorViewModel? EditorViewModel => DataContext as EditorViewModel;
     
     public void EntityAddBtn_Click(object? sender, EventArgs e)
     {
@@ -98,9 +100,15 @@ public partial class EditorWindow : Window
             var presenter = image.FindAncestorOfType<ContentPresenter>();
             if (presenter != null)
             {
-                if (Test.ItemFromContainer(presenter) is Entity entity)
+                if (Entities.ItemFromContainer(presenter) is Entity entity)
                 {
+                    var oldEntity = EditorViewModel.SelectedEntity;
+                    
+                    if (oldEntity != null)
+                        oldEntity.EntityRenderer.DeselectEntity();
+                    
                     EditorViewModel.SelectedEntity = entity;
+                    entity.EntityRenderer.SelectEntity();
                 }
             }
         }

@@ -84,7 +84,7 @@ public class Entity : INotifyPropertyChanged
         Id = Guid.NewGuid().ToString();
         _components = new ObservableCollection<IEntityComponent>();
         _children = new ObservableCollection<Entity>();
-        EntityRenderer = new EntityRenderer();
+        EntityRenderer = new EntityRenderer(this);
         LoadEntity();
     }
     
@@ -92,7 +92,7 @@ public class Entity : INotifyPropertyChanged
 
     public void LoadComponents()
     {
-        EntityRenderer = new EntityRenderer();
+        EntityRenderer = new EntityRenderer(this);
         TextureComponents.ForEach((component => component.LoadComponent(this)));
         foreach (var comp in _components)
         {
