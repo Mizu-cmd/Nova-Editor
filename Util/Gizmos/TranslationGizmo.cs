@@ -61,7 +61,7 @@ public class TranslationGizmo : Gizmo
             if (Type == GizmoType.Local)
             {
                 var mouseDelta = new Point(e.GetPosition(Viewport).X, -e.GetPosition(Viewport).Y)  - _startPos;
-                var rotation = (Entity.TransformComponent.Rot + 90) * Math.PI / 180;
+                var rotation = (Transform.Rot + 90) * Math.PI / 180;
                 
                 float cosTheta = (float)Math.Sin(rotation);
                 float sinTheta = (float)Math.Cos(rotation);
@@ -70,40 +70,50 @@ public class TranslationGizmo : Gizmo
                 var projectionMagnitude = Vector.Dot(mouseDelta, axisDirection);
                 Vector projectedMouseDelta = projectionMagnitude * axisDirection;
                 
-                Entity.TransformComponent.posX = (float)(_startValueX + projectedMouseDelta.X);
-                Entity.TransformComponent.posY = (float)(_startValueY +  projectedMouseDelta.Y);
+                Transform.PosX = (float)(_startValueX + projectedMouseDelta.X);
+                Transform.PosY = (float)(_startValueY +  projectedMouseDelta.Y);
             }else 
-                Entity.TransformComponent.posX = _startValueX + (float)(e.GetPosition(Viewport).X - _startPos.X);
+                Transform.PosX = _startValueX + (float)(e.GetPosition(Viewport).X - _startPos.X);
         }
     }
     private void ArrowRightOnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
        _dragging = false;
+       if (Type == GizmoType.Global)
+        Viewport.Cursor = new Cursor(StandardCursorType.Arrow);
     }
 
     private void ArrowRightOnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         _dragging = true;
-        _startValueX = Entity.TransformComponent.posX;
-        _startValueY = Entity.TransformComponent.posY;
+        _startValueX = Transform.PosX;
+        _startValueY = Transform.PosY;
         _startPos = new Point(e.GetPosition(Viewport).X, -e.GetPosition(Viewport).Y);
+        if (Type == GizmoType.Global)
+            Viewport.Cursor = new Cursor(StandardCursorType.SizeWestEast);
     }
 
     public override void UpdatePosition()
     {
         if (_arrowUp == null || _arrowRight == null) return;
         base.UpdatePosition();
-        Canvas.SetLeft(_arrowUp, (Renderer.PosX + Renderer.Width / 2.0 + 5) - _btmUp.Size.Width / 2.0);
-        Canvas.SetTop(_arrowUp, (-Renderer.PosY - Renderer.Height / 2.0 + 3) - _btmUp.Size.Height);
-        Canvas.SetLeft(_arrowRight, Renderer.PosX + Renderer.Width / 2.0 + 5);
-        Canvas.SetTop(_arrowRight, (-Renderer.PosY - Renderer.Height / 2.0 + 3) - _btmRight.Size.Height / 2.0);
+        Canvas.SetLeft(_arrowUp, (Transform.PosX + Renderer.Width / 2.0 + 5) - _btmUp.Size.Width / 2.0);
+        Canvas.SetTop(_arrowUp, (-Transform.PosY - Renderer.Height / 2.0 + 3) - _btmUp.Size.Height);
+        Canvas.SetLeft(_arrowRight, Transform.PosX + Renderer.Width / 2.0 + 5);
+        Canvas.SetTop(_arrowRight, (-Transform.PosY - Renderer.Height / 2.0 + 3) - _btmRight.Size.Height / 2.0);
+        
         if (Type == GizmoType.Local)
         {
             Matrix mat = Matrix.Identity;
-            mat *= Matrix.CreateRotation(Entity.TransformComponent.Rot * Math.PI / 180);
+            mat *= Matrix.CreateRotation(Transform.Rot * Math.PI / 180);
             _arrowUp.RenderTransform = new MatrixTransform(mat);
             _arrowRight.RenderTransform = new MatrixTransform(mat);
         }
+        
+        Matrix m = Matrix.Identity;
+        m *= Matrix.CreateScale(Transform.Scale, Transform.Scale);
+        _arrowUp.RenderTransform = new MatrixTransform(m);
+        _arrowRight.RenderTransform = new MatrixTransform(m);
     }
     
     private void ArrowUpOnPointerMoved(object? sender, PointerEventArgs e)
@@ -113,7 +123,7 @@ public class TranslationGizmo : Gizmo
             if (Type == GizmoType.Local)
             {
                 var mouseDelta = new Point(e.GetPosition(Viewport).X, -e.GetPosition(Viewport).Y)  - _startPos;
-                var rotation = Entity.TransformComponent.Rot * Math.PI / 180;
+                var rotation = Transform.Rot * Math.PI / 180;
                 
                 float cosTheta = (float)Math.Sin(rotation);
                 float sinTheta = (float)Math.Cos(rotation);
@@ -122,10 +132,10 @@ public class TranslationGizmo : Gizmo
                 var projectionMagnitude = Vector.Dot(mouseDelta, axisDirection);
                 Vector projectedMouseDelta = projectionMagnitude * axisDirection;
                 
-                Entity.TransformComponent.posX = (float)(_startValueX + projectedMouseDelta.X);
-                Entity.TransformComponent.posY = (float)(_startValueY +  projectedMouseDelta.Y);
+                Transform.PosX = (float)(_startValueX + projectedMouseDelta.X);
+                Transform.PosY = (float)(_startValueY +  projectedMouseDelta.Y);
             }else 
-                Entity.TransformComponent.posY = (float)(_startValueY + (-e.GetPosition(Viewport).Y + _startPos.Y));
+                Transform.PosY = (float)(_startValueY + (-e.GetPosition(Viewport).Y - _startPos.Y));
         }
         
     }
@@ -133,24 +143,28 @@ public class TranslationGizmo : Gizmo
 
     private void PointerExit(object? sender, PointerEventArgs e)
     {
-        (sender as Image).Opacity = 1;
+        ((sender as Image)!).Opacity = 1;
     }
 
     private void PointerEnter(object? sender, PointerEventArgs e)
     {
-        (sender as Image).Opacity = 0.5;
+        ((sender as Image)!).Opacity = 0.5;
     }
 
     private void ArrowUpOnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
         _dragging = false;
+        Viewport.Cursor = new Cursor(StandardCursorType.Arrow);
     }
     private void ArrowUpOnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         _dragging = true;
-        _startValueX = Entity.TransformComponent.posX;
-        _startValueY = Entity.TransformComponent.posY;
+        _startValueX = Entity.TransformComponent.PosX;
+        _startValueY = Entity.TransformComponent.PosY;
         _startPos = new Point(e.GetPosition(Viewport).X, -e.GetPosition(Viewport).Y);
+        
+        if (Type == GizmoType.Global)
+            Viewport.Cursor = new Cursor(StandardCursorType.SizeNorthSouth);
     }
     
     public override void Erase()

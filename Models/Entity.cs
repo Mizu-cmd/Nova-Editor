@@ -19,7 +19,7 @@ namespace Nova_Engine.Object;
 public class Entity : INotifyPropertyChanged
 {
     
-    private const string _dllImportPath = "libNova_Engine";
+    private const string _dllImportPath = "libEngine";
     private IntPtr _pointer = IntPtr.Zero;
 
     [DataMember] private string _name;
@@ -80,11 +80,11 @@ public class Entity : INotifyPropertyChanged
     
     public Entity(string name)
     {
+        EntityRenderer = new EntityRenderer(this);
         _name = name;
         Id = Guid.NewGuid().ToString();
         _components = new ObservableCollection<IEntityComponent>();
         _children = new ObservableCollection<Entity>();
-        EntityRenderer = new EntityRenderer(this);
         LoadEntity();
     }
     
@@ -96,8 +96,7 @@ public class Entity : INotifyPropertyChanged
         TextureComponents.ForEach((component => component.LoadComponent(this)));
         foreach (var comp in _components)
         {
-            if (!(comp is TextureComponent))
-             comp.LoadComponent(this);
+            if (!(comp is TextureComponent)) comp.LoadComponent(this);
             addComponent(_pointer, comp.GetPointer());
         }
     }

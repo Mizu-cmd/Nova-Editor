@@ -15,7 +15,7 @@ namespace Nova_Engine.Views;
 
 public partial class EditorWindow : Window
 {
-    private const string _dllImportPath = "libNova_Engine";
+    private const string _dllImportPath = "libEngine";
 
     [DllImport(_dllImportPath, CallingConvention = CallingConvention.StdCall)]
     private static extern void run();
@@ -45,7 +45,7 @@ public partial class EditorWindow : Window
     public void EntityAddBtn_Click(object? sender, EventArgs e)
     {
         var entity = new Entity("NewEntity");
-        entity.AddComponent(new TransformComponent(0, 0, 0, 0, 1));
+        entity.AddComponent(new TransformComponent(0, 0, 0, 0, 1, entity));
         entity.AddComponent(new TextureComponent()
         {
             TextureName = "NewTexture",
@@ -102,13 +102,7 @@ public partial class EditorWindow : Window
             {
                 if (Entities.ItemFromContainer(presenter) is Entity entity)
                 {
-                    var oldEntity = EditorViewModel.SelectedEntity;
-                    
-                    if (oldEntity != null)
-                        oldEntity.EntityRenderer.DeselectEntity();
-                    
                     EditorViewModel.SelectedEntity = entity;
-                    entity.EntityRenderer.SelectEntity();
                 }
             }
         }

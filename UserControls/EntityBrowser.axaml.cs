@@ -24,7 +24,7 @@ public partial class EntityBrowser : UserControl
     {
         Entity? entity = Hierarchy.SelectedItem as Entity;
         var child = new Entity("NewChild");
-        child.AddComponent(new TransformComponent(0, 0, 0, 0, 1));
+        child.AddComponent(new TransformComponent(0, 0, 0, 0, 1, entity));
         entity.Children.Add(child);
         Hierarchy.ExpandSubTree((TreeViewItem)Hierarchy.ContainerFromItem(entity));
         Hierarchy.SelectedItem = child;
@@ -35,7 +35,7 @@ public partial class EntityBrowser : UserControl
     {
         Entity? entity = Hierarchy.SelectedItem as Entity;
         var container = Hierarchy.ContainerFromItem(entity);
-        Console.WriteLine(container);
+        
         var textBox = container.FindDescendantOfType<TextBox>();
         if (textBox != null)
         {

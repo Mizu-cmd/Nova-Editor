@@ -17,11 +17,11 @@
                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="10 5" Foreground="Azure">Position</TextBlock>
                        <Grid Grid.Column="1" ColumnDefinitions="Auto *">
                            <TextBlock Foreground="Azure" FontWeight="DemiBold"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4 0">X</TextBlock>
-                           <NumericUpDown PointerPressed="OnPointerPressed" PointerReleased="OnPointerReleased" PointerMoved="OnMouseDragged" Grid.Column="1" Increment="1" CornerRadius="3" HorizontalAlignment="Stretch" Value="{Binding posX}" />
+                           <NumericUpDown PointerPressed="OnPointerPressed" PointerReleased="OnPointerReleased" PointerMoved="OnMouseDragged" Grid.Column="1" Increment="1" CornerRadius="3" HorizontalAlignment="Stretch" Value="{Binding PosX}" />
                        </Grid>
                        <Grid Grid.Column="2" ColumnDefinitions="Auto *">
                            <TextBlock Foreground="Azure" FontWeight="DemiBold"  VerticalAlignment="Center" HorizontalAlignment="Right" Margin="4 0">Y</TextBlock>
-                           <NumericUpDown PointerPressed="OnPointerPressed" PointerReleased="OnPointerReleased" PointerMoved="OnMouseDragged" Grid.Column="1" Increment="1" CornerRadius="3" HorizontalAlignment="Stretch" Value="{Binding posY}" />
+                           <NumericUpDown PointerPressed="OnPointerPressed" PointerReleased="OnPointerReleased" PointerMoved="OnMouseDragged" Grid.Column="1" Increment="1" CornerRadius="3" HorizontalAlignment="Stretch" Value="{Binding PosY}" />
                        </Grid>
                    </Grid>
                    

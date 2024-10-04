@@ -24,6 +24,7 @@
                 <Grid DockPanel.Dock="Right" Width="300" Background="#03214a">
                         <userControls:Inspector />
                 </Grid>
+                <!--Top bar-->
                 <Grid DockPanel.Dock="Top" Height="50" Background="#021631">
                         <Menu VerticalAlignment="Center">
                                 <MenuItem Margin="5" FontSize="15" Foreground="Azure" Header="_File">
@@ -140,7 +141,7 @@
                                                 </ItemsControl.Styles>
                                                 <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
-                                                                <Border BorderThickness="3" BorderBrush="{Binding EntityRenderer.SelectionBrush}">
+                                                                <Border Background="{Binding EntityRenderer.SelectionBrush}">
                                                                         <Image PointerPressed="InputElement_OnPointerPressed" Width="{Binding  EntityRenderer.Width }" 
                                                                                Height="{Binding EntityRenderer.Height}" 
                                                                                Source="{ Binding EntityRenderer.Bitmap }"

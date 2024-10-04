@@ -13,11 +13,11 @@ namespace Nova_Engine.Models.Components;
 public class TextureComponent : IEntityComponent, INotifyPropertyChanged
 {
     private IntPtr _pointer = IntPtr.Zero;
-    private const string _dllImportPath = "libNova_Editor";
+    private const string _dllImportPath = "libEngine";
     private Bitmap _bitmap;
     private Entity _entity;
     
-    [DataMember] public string TexturePath { get; set; }
+    [DataMember] public string? TexturePath { get; set; }
 
     public Bitmap Bitmap
     {
@@ -26,6 +26,8 @@ public class TextureComponent : IEntityComponent, INotifyPropertyChanged
         {
             _bitmap = value;
             _entity.EntityRenderer.Bitmap = _bitmap;
+            _entity.TransformComponent.Width = _bitmap.PixelSize.Width;
+            _entity.TransformComponent.Height = _bitmap.PixelSize.Height;
             OnPropertyChanged();
         }
     }
@@ -48,11 +50,15 @@ public class TextureComponent : IEntityComponent, INotifyPropertyChanged
     public void LoadComponent(Entity entity)
     {
         _entity = entity;
-        if (TexturePath != null) Bitmap = new Bitmap(TexturePath);
+        if (TexturePath != null)
+        {
+            Bitmap = new Bitmap(TexturePath);
+            _pointer = createTexture(TexturePath);
+        }
     }
     
     [DllImport(_dllImportPath, CallingConvention = CallingConvention.StdCall)]
-    private static extern IntPtr createTexture();
+    private static extern IntPtr createTexture(string path);
     
     public event PropertyChangedEventHandler? PropertyChanged;
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

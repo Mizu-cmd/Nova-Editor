@@ -1,11 +1,6 @@
-using System;
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
-using Avalonia.LogicalTree;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using Avalonia.Platform;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Nova_Engine.Object;
 using Nova_Engine.Util.Gizmos;
@@ -20,10 +15,10 @@ public partial class EntityRenderer(Entity entity) : ObservableObject
     [ObservableProperty] private double _posX;
     [ObservableProperty] private float _posY;
     [ObservableProperty] private bool _hasTexture;
-    [ObservableProperty] private MatrixTransform _transform;
-    [ObservableProperty] private Brush _selectionBrush;
+    [ObservableProperty] private MatrixTransform _transform = null!;
+    [ObservableProperty] private Brush _selectionBrush = new SolidColorBrush(Colors.DarkBlue, 0.4f);
 
-    private Gizmo _gizmo;
+    private Gizmo? _gizmo;
 
     public void UpdateGizmo()
     {
@@ -33,12 +28,12 @@ public partial class EntityRenderer(Entity entity) : ObservableObject
     public void DeselectEntity()
     {
         SelectionBrush = new SolidColorBrush(Colors.Transparent);
-        _gizmo.Erase();
+        if (_gizmo != null) _gizmo.Erase();
     }
     
     public void SelectEntity()
     {
-        SelectionBrush = new SolidColorBrush(Colors.DarkBlue);
-       _gizmo = new TranslationGizmo(entity, GizmoType.Local);
+        SelectionBrush =  new SolidColorBrush(Colors.DarkBlue, 0.4f);
+       _gizmo = new TranslationGizmo(entity, GizmoType.Global);
     }
 }

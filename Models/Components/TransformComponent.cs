@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -14,32 +13,33 @@ namespace Nova_Engine.Models.Components;
 [DataContract]
 public class TransformComponent : IEntityComponent, INotifyPropertyChanged
 {
-    private const string _dllImportPath = "libNova_Engine";
+    private const string _dllImportPath = "libEngine";
     
     private IntPtr _pointer = IntPtr.Zero;
-    private Entity _entity;
+    private Entity? _entity;
 
-    [DataMember]
-    private float _x, _y, _rot;
-    [DataMember]
-    private float _scale = 1;
-
-    public float posX
+    [DataMember] private float _x, _y, _rot;
+    [DataMember] private float _scale = 1;
+    [DataMember] private int _width = 30;
+    [DataMember] private int _height = 30;
+    public float PosX
     {
         get => _x;
         set
         {
-            _x = value; UpdateEntityRender();
+            _x = value; 
+            UpdateEntityRender();
             OnPropertyChanged();
         }
     }
 
-    public float posY
+    public float PosY
     {
         get => _y;
         set
         {
-            _y = value; UpdateEntityRender();
+            _y = value; 
+            UpdateEntityRender();
             OnPropertyChanged();
         }
     }
@@ -65,12 +65,33 @@ public class TransformComponent : IEntityComponent, INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
+
+    public int Width
+    {
+        get => _width;
+        set
+        {
+            _width = (int)(value * _scale);
+            UpdateEntityRender();
+        }
+    }
+    
+    public int Height
+    {
+        get => _height;
+        set
+        {
+            _height = (int)(value * _scale);
+            UpdateEntityRender();
+        }
+    }
     
     [DllImport(_dllImportPath, CallingConvention = CallingConvention.StdCall)]
     private static extern IntPtr createTransform(float x, float y, float xRot, float yRot, float scale);
 
-    public TransformComponent(float x, float y, float xRot, float yRot, float scale)
+    public TransformComponent(float x, float y, float xRot, float yRot, float scale, Entity entity)
     {
+        _entity = entity;
         Scale = scale;
         _pointer = createTransform(x, y, xRot, yRot, Scale);
     }
@@ -84,12 +105,12 @@ public class TransformComponent : IEntityComponent, INotifyPropertyChanged
 
     private void UpdateEntityRender()
     {
+        if (_entity == null) return;
         var renderer = _entity.EntityRenderer;
-        if (renderer.Bitmap == null) return;
-        renderer.Width = renderer.Bitmap.PixelSize.Width * _scale;
-        renderer.Height = renderer.Bitmap.PixelSize.Height * _scale;
-        renderer.PosX = posX;
-        renderer.PosY = posY;
+        renderer.PosX = PosX;
+        renderer.PosY = PosY;
+        renderer.Width = Scale * Width;
+        renderer.Height = Scale * Height;
         
         var mi = Matrix.Identity;
         mi *= Matrix.CreateRotation(_rot * Math.PI / 180);

@@ -12,11 +12,19 @@ sealed class Program
     // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
     // yet and stuff might break.
     
+    private const string _dllImportPath = "libNova_Engine";
+    [DllImport(_dllImportPath, CallingConvention = CallingConvention.StdCall)]
+    private static extern void setPathImg(string path);
+    
+    [DllImport(_dllImportPath, CallingConvention = CallingConvention.StdCall)]
+    private static extern void run();
     
     [STAThread]
     public static void Main(string[] args)
     {
         BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+        //setPathImg("C:\\Users\\mitha\\RiderProjects\\Nova-Editor\\Assets\\nova-logo.png");
+        //run();
     }
     
 

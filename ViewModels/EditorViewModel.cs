@@ -14,7 +14,13 @@ public partial class EditorViewModel : ViewModelBase
     
     [ObservableProperty]
     private Scene _currentScene = null!;
-    
+
+    partial void OnSelectedEntityChanged(Entity? oldValue, Entity? newValue)
+    {
+        if (oldValue != null) oldValue.EntityRenderer.DeselectEntity();
+        if (newValue != null) newValue.EntityRenderer.SelectEntity();
+    }
+
     public Scene LoadScene(string path)
     {
         Console.WriteLine($"Loaded Scene {path}");

@@ -1,7 +1,9 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using Nova_Engine.Models;
+using Nova_Engine.Models.Components;
 using Nova_Engine.Object;
 using Nova_Engine.Views;
 
@@ -21,6 +23,7 @@ public abstract class Gizmo
     }
 
     protected EntityRenderer Renderer => Entity.EntityRenderer;
+    protected TransformComponent Transform => Entity.TransformComponent;
     protected Canvas Viewport => EditorWindow.EditorViewport;
     
     public virtual void Draw()
@@ -35,8 +38,11 @@ public abstract class Gizmo
 
     public virtual void UpdatePosition()
     {
-        Canvas.SetLeft(_centerPoint, Renderer.PosX + Renderer.Width / 2.0);
-        Canvas.SetTop(_centerPoint, -Renderer.PosY - Renderer.Height / 2.0);
+        Canvas.SetLeft(_centerPoint, Transform.PosX + Renderer.Width / 2.0);
+        Canvas.SetTop(_centerPoint, -Transform.PosY - Renderer.Height / 2.0);
+        Matrix m = Matrix.Identity;
+        m *= Matrix.CreateScale(Transform.Scale, Transform.Scale);
+        _centerPoint.RenderTransform = new MatrixTransform(m);
     }
 
     public virtual void Erase()
